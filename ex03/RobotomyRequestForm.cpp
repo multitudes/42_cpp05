@@ -6,7 +6,7 @@
 /*   By: lbrusa <lbrusa@student.42berlin.de>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/16 11:46:20 by lbrusa            #+#    #+#             */
-/*   Updated: 2024/08/17 14:06:27 by lbrusa           ###   ########.fr       */
+/*   Updated: 2024/10/23 09:41:46 by lbrusa           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,18 +17,18 @@
 #include <cstdlib>
 #include <ctime>
 
-/** 
+/**
  * Constructor
  */
 RobotomyRequestForm::RobotomyRequestForm(std::string target) : AForm("RobotomyRequestForm", 72, 45), target(target) {
-	std::cout << "RobotomyRequestForm constructor called" << std::endl;
+	std::cout << "RobotomyRequestForm " << this->target << " constructor called" << std::endl;
 }
 
 /**
  * Destructor
  */
 RobotomyRequestForm::~RobotomyRequestForm() {
-	std::cout << "RobotomyRequestForm destructor called" << std::endl;
+	std::cout << "RobotomyRequestForm " << this->target << " destructor called" << std::endl;
 }
 
 /**
@@ -36,7 +36,7 @@ RobotomyRequestForm::~RobotomyRequestForm() {
  * @param src
  */
 RobotomyRequestForm::RobotomyRequestForm(const RobotomyRequestForm& src) : AForm(src), target(src.target) {
-	std::cout << "RobotomyRequestForm copy constructor called" << std::endl;
+	std::cout << "RobotomyRequestForm " << this->target << " copy constructor called" << std::endl;
 }
 
 /**
@@ -45,7 +45,7 @@ RobotomyRequestForm::RobotomyRequestForm(const RobotomyRequestForm& src) : AForm
  * @return
  */
 RobotomyRequestForm& RobotomyRequestForm::operator=(const RobotomyRequestForm& src) {
-	std::cout << "RobotomyRequestForm assignment operator called" << std::endl;
+	std::cout << "RobotomyRequestForm " << this->target << " assignment operator called" << std::endl;
 	if (this != &src) {
 		AForm::operator=(src);
 		this->target = src.target;
@@ -56,25 +56,17 @@ RobotomyRequestForm& RobotomyRequestForm::operator=(const RobotomyRequestForm& s
 /**
  * Execute the form
  * @param executor
- * This function is overriding the execute function from AForm
+ * This function is overriding the performAction function from AForm
  * and will throw different exceptions depending on the grade of the executor
- * and if the form is signed or not. Also it will randomly succeed or fail.
+ * and if the form is signed or not
  */
-void RobotomyRequestForm::execute(const Bureaucrat& executor) const {
+void RobotomyRequestForm::performAction() const {
 	std::cout << ".... drilling noises ...." << std::endl;
 	srand(static_cast<unsigned int>(time(NULL)));
-	if (this->getIsSigned() == false) {
-		throw AForm::FormNotSignedException();
-	}
-	else if (executor.getGrade() <= this->getGradeToExecute()) {
-		if (rand() % 2) {
-			std::cout << this->target << " has been robotomized successfully." << std::endl;
-		}
-		else {
-			std::cout << "Robotomization of " << this->target << " has failed." << std::endl;
-		}
+	if (rand() % 2) {
+		std::cout << this->target << " has been robotomized successfully." << std::endl;
 	}
 	else {
-		throw AForm::GradeTooLowException();
+		std::cout << "Robotomization of " << this->target << " has failed." << std::endl;
 	}
 }

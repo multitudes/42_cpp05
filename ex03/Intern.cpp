@@ -6,7 +6,7 @@
 /*   By: lbrusa <lbrusa@student.42berlin.de>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/16 19:41:45 by lbrusa            #+#    #+#             */
-/*   Updated: 2024/08/17 12:46:28 by lbrusa           ###   ########.fr       */
+/*   Updated: 2024/10/21 14:31:07 by lbrusa           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@
 /**
  * Initialize the static arrays
  * This works even if they are declared as private!
+ * static arrays can only be initialized outside the class
  */
 const std::string Intern::formNames[3] = {
 	"shrubbery creation",
@@ -29,6 +30,8 @@ const std::string Intern::formNames[3] = {
 /**
  * Initialize the static array of function pointers
  * This will be used to call the correct function to create the form
+ * I use & operator to get the address of the functions and initialize the array
+ * with the function pointe
  */
 const Intern::CreateFormFunc Intern::formFuncs[3] = {
 	&Intern::createShrubberyForm,
@@ -46,10 +49,12 @@ Intern::Intern() {
 /**
  * Copy constructor
  * @param copy
+ * 
+ * I have no property to copy
  */
 Intern::Intern(const Intern& copy) {
+	(void)copy;
 	std::cout << "Intern copy constructor called" << std::endl;
-	*this = copy;
 }
 	
 /**
@@ -61,11 +66,12 @@ Intern::~Intern() {
 
 /**
  * Assignment operator
+ * 
+ * Since i have no property nothing gets copied. I just have two interns
  */
 Intern& Intern::operator=(const Intern& src) {
+	(void)src;
 	std::cout << "Intern assignment operator called" << std::endl;
-	if (this != &src) {
-	}
 	return *this;
 }
 
@@ -92,7 +98,7 @@ AForm* Intern::makeForm(std::string formName, std::string target) {
 }
 
 const char* Intern::FormNotFoundException::what() const throw() {
-	return "Form not found";
+	return "Intern : Form not found";
 }
 
 /**

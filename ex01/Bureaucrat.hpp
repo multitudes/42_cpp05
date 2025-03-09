@@ -6,7 +6,7 @@
 /*   By: lbrusa <lbrusa@student.42berlin.de>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/15 14:07:28 by lbrusa            #+#    #+#             */
-/*   Updated: 2024/08/17 13:46:41 by lbrusa           ###   ########.fr       */
+/*   Updated: 2024/10/22 17:35:05 by lbrusa           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,17 +14,18 @@
 #ifndef BUREAUCRAT_HPP
 #define BUREAUCRAT_HPP
 
+#include "Form.hpp"
 #include "string"
 #include "exception"
-#include "Form.hpp"
 
 class Form;
 
 /**
- * Bureaucrat class with name and grade
- * This time it has a signForm method which takes a Form as parameter
- * and throws an exception if the bureaucrat's grade is too low
- * to sign the form
+ * Bureaucrat class in Orthodox Canonical Form with name and grade
+ * 
+ * The exceptions need to be defined in the class since in the 
+ * subject are declared like Bureaucrat::GradeTooHighException etc.
+ * I cannot use define them outside the class. 
  */
 class Bureaucrat {
 
@@ -40,9 +41,10 @@ class Bureaucrat {
 		int 			getGrade() const;
 		void 			incrementGrade();
 		void 			decrementGrade();
-
+		void			validateGrade(int grade);
+		
 		void 			signForm(Form& f) const;
-
+		
 		// exceptions
 		class GradeTooHighException: public std::exception {
 			public:
@@ -59,7 +61,7 @@ class Bureaucrat {
 		int grade;
 };
 
-// overload << operator
+// overload << operator to print my bureaucrat in a sensible way
 std::ostream& operator<<(std::ostream& os, const Bureaucrat& b);
 
 #endif

@@ -8,6 +8,9 @@ CXXFLAGS += -g3 -O0
 # Uncomment this line to turn off debug flags
 # CXXFLAGS += -DNDEBUG
 
+# make sure to use c++98
+LDFLAGS = -std=c++98
+
 CXX = c++
 
 NAME = wrong_forms
@@ -24,7 +27,7 @@ OBJS = $(SRCS:.cpp=.o)
 all: $(NAME)
 
 $(NAME): $(OBJS)
-	$(CXX) $(CXXFLAGS) -o $@ $^
+	$(CXX) $(CXXFLAGS) $(LDFLAGS) -o $@ $^
 
 # This is to recompile the .o files if the makefile changes
 %.o: %.cpp Makefile

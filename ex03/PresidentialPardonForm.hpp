@@ -6,7 +6,7 @@
 /*   By: lbrusa <lbrusa@student.42berlin.de>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/16 11:47:16 by lbrusa            #+#    #+#             */
-/*   Updated: 2024/08/17 14:05:48 by lbrusa           ###   ########.fr       */
+/*   Updated: 2024/10/21 12:15:04 by lbrusa           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,10 +26,12 @@ class PresidentialPardonForm : public AForm {
 		PresidentialPardonForm(const PresidentialPardonForm& src);
 		PresidentialPardonForm& operator=(const PresidentialPardonForm& src);
 
-		void execute(Bureaucrat const & executor) const;
-	
+		void performAction() const;
+		
 	private:
 		std::string target;
 };
+
+
 
 #endif

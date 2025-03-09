@@ -15,6 +15,7 @@
 #define FORM_HPP
 
 #include "string"
+#include <exception>
 #include "Bureaucrat.hpp"
 
 class Bureaucrat;
@@ -39,10 +40,17 @@ class AForm {
 
 		void			beSigned(const Bureaucrat& b);
 		void 			setIsSignedTrue();
+
+		// I implemented it this way. execute does the checks and then calls performAction
+		void			execute(const Bureaucrat& executor) const;
 		
 		// this makes my AForm abstract and will be implemented
-		// in the derived classes
-		virtual void	execute(const Bureaucrat& executor) const = 0;
+		// in the derived classes - the = 0 makes it pure virtual
+		// an abstract class cannot be instantiated
+		virtual void 	performAction() const = 0;
+
+		// utility function
+		void 			validateGrade(int grade) const;
 
 		class GradeTooHighException: public std::exception {
 			public:

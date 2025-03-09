@@ -10,6 +10,8 @@ CXXFLAGS += -g3 -O0
 
 CXX = c++
 
+LDFLAGS = -std=c++98
+
 NAME= when_I_grow_up
 ARGS=
 SRCS= main.cpp Bureaucrat.cpp
@@ -18,7 +20,7 @@ OBJS= $(SRCS:.cpp=.o)
 all: $(NAME)
 
 $(NAME): $(OBJS)
-	$(CXX) $(CXXFLAGS) -o $@ $^
+	$(CXX) $(CXXFLAGS) $(LDFLAGS) -o $@ $^
 
 # This is to recompile the .o files if the makefile changes
 %.o: %.cpp Makefile

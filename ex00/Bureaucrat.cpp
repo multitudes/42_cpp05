@@ -6,7 +6,7 @@
 /*   By: lbrusa <lbrusa@student.42berlin.de>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/15 14:07:03 by lbrusa            #+#    #+#             */
-/*   Updated: 2024/08/15 18:13:02 by lbrusa           ###   ########.fr       */
+/*   Updated: 2024/10/23 08:40:19 by lbrusa           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,46 +18,53 @@
 /**
  * Default constructor
  */
-Bureaucrat::Bureaucrat() : name("default"), grade(150) {
-	std::cout << "=== Bureaucrat def constructor called ===" << std::endl;
+Bureaucrat::Bureaucrat() : name("Prostetnic Vogon Jeltz"), grade(150) {
+	std::cout << this->name << " === Bureaucrat def constructor called ===" << std::endl;
 }
 
 /**
  * Parameterized constructor
  * @param name
  * @param grade
+ * 
+ * If the validation fails and an exception is thrown, the object will be destructed immediately, 
+ * and the destructor will be called
  */
 Bureaucrat::Bureaucrat(const std::string name, int grade) : name(name), grade(grade) {
-	if (grade > 150)
-		throw Bureaucrat::GradeTooLowException();
-	else if (grade < 1)
-		throw Bureaucrat::GradeTooHighException();
-	std::cout << "=== Bureaucrat constructor called ===" << std::endl;
+	validateGrade(grade);
+	std::cout << this->name <<  " === Bureaucrat constructor called ===" << std::endl;
 }
 
 /**
  * Destructor
  */
 Bureaucrat::~Bureaucrat() {
-	std::cout << "=== Bureaucrat destructor called ===" << std::endl;
+	std::cout << this->name << " === Bureaucrat destructor called ===" << std::endl;
 }
 
 /**
  * Copy constructor
  * @param copy
+ * 
+ * If the validation fails and an exception is thrown, the object will be destructed immediately, 
+ * and the destructor will be called
  */
 Bureaucrat::Bureaucrat(const Bureaucrat& copy) : name(copy.name), grade(copy.grade) {
-	std::cout << "=== Bureaucrat copy constructor called ===" << std::endl;
+	validateGrade(copy.grade);
+	std::cout << this->name << " === Bureaucrat copy constructor called ===" << std::endl;
 }
 
 /**
  * Assignment operator
  * @param assign
- * @return
+ * @return a reference to the bureaucrat
+ * 
+ * Using the assignment operator ex b2 = b1;
  */
 Bureaucrat& Bureaucrat::operator=(const Bureaucrat& assign) {
-	std::cout << "=== Bureaucrat assignment operator called ===" << std::endl;
+	std::cout << this->name << " === Bureaucrat assignment operator called ===" << std::endl;
 	if (this != &assign) {
+		validateGrade(assign.grade);
 		this->grade = assign.grade;
 	}
 	return *this;
@@ -65,7 +72,7 @@ Bureaucrat& Bureaucrat::operator=(const Bureaucrat& assign) {
 
 /**
  * Get the name of the bureaucrat
- * @return
+ * @return string name
  */
 std::string Bureaucrat::getName() const {
 	return this->name;
@@ -73,24 +80,26 @@ std::string Bureaucrat::getName() const {
 
 /**
  * Get the grade of the bureaucrat
- * @return
+ * @return int grade
  */
 int Bureaucrat::getGrade() const {
 	return this->grade;
 }
 
 /**
+ * GradeTooLowException
  * throw an exception if the grade is too low
  */
 const char* Bureaucrat::GradeTooLowException::what() const throw() {
-	return "Grade too low";
+	return "Bureaucrat exception: Grade too low";
 }
 
 /**
+ * GradeTooHighException
  * throw an exception if the grade is too high
  */
 const char* Bureaucrat::GradeTooHighException::what() const throw() {
-	return "Grade too high";
+	return "Bureaucrat exception: Grade too high";
 }
 
 /**
@@ -105,8 +114,7 @@ std::ostream& operator<<(std::ostream& os, const Bureaucrat& b) {
  * Increment the grade of the bureaucrat
  */
 void Bureaucrat::incrementGrade() {
-	if (this->grade -1 < 1)
-		throw Bureaucrat::GradeTooHighException();
+	Bureaucrat::validateGrade(this->grade - 1);
 	this->grade--;
 }
 
@@ -114,7 +122,19 @@ void Bureaucrat::incrementGrade() {
  * Decrement the grade of the bureaucrat
  */
 void Bureaucrat::decrementGrade() {
-	if (this->grade + 1 > 150)
-		throw Bureaucrat::GradeTooLowException();
+	validateGrade(this->grade + 1);
 	this->grade++;
+}
+
+/**
+ * Helper function to check for the grade and throw an exception if it is too low 
+ * or too high
+ */
+void Bureaucrat::validateGrade(int grade) {
+    if (grade < 1) {
+        throw Bureaucrat::GradeTooHighException();
+    }
+    if (grade > 150) {
+        throw Bureaucrat::GradeTooLowException();
+    }
 }

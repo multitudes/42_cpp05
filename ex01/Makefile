@@ -8,9 +8,11 @@ CXXFLAGS += -g3 -O0
 # Uncomment this line to turn off debug flags
 # CXXFLAGS += -DNDEBUG
 
+LDFLAGS = -std=c++98
+
 CXX = c++
 
-NAME= when_I_grow_up
+NAME= maggots
 ARGS=
 SRCS= main.cpp Bureaucrat.cpp Form.cpp
 OBJS= $(SRCS:.cpp=.o)
@@ -22,7 +24,7 @@ $(NAME): $(OBJS)
 
 # This is to recompile the .o files if the makefile changes
 %.o: %.cpp Makefile
-	$(CXX) $(CXXFLAGS) -c -o $@ $<
+	$(CXX) $(CXXFLAGS) $(LDFLAGS) -c -o $@ $<
 
 clean:
 	rm -f $(OBJS)
